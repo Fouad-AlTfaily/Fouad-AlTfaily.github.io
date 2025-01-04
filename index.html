@@ -15,7 +15,25 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            position: fixed;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative !important;
+                height: auto !important;
+                width: 100% !important;
+                padding: 2rem 1rem !important;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+                padding: 1rem !important;
+            }
+            
+            .profile-img {
+                width: 6rem !important;
+                height: 6rem !important;
+            }
         }
         
         .profile-img {
@@ -62,12 +80,36 @@
             position: relative;
             background-color: #f7fafc;
         }
+
+        .menu-button {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                z-index: 50;
+                background: rgba(44, 55, 72, 0.95);
+                padding: 0.5rem;
+                border-radius: 0.5rem;
+                color: white;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
-    <div class="flex min-h-screen">
+    <button class="menu-button md:hidden" onclick="toggleSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+        </svg>
+    </button>
+
+    <div class="flex flex-col md:flex-row min-h-screen">
         <!-- Sidebar -->
-        <div class="sidebar w-96 text-white p-8 flex flex-col items-center fixed h-screen">
+        <div id="sidebar" class="sidebar w-full md:w-96 text-white p-8 flex flex-col items-center md:fixed md:h-screen hidden md:flex">
             <div class="mb-8 text-center">
                 <img src="Portfolio.jpeg" alt="Profile" class="profile-img rounded-full w-32 h-32 mb-4 mx-auto shadow-lg object-cover">
                 <h1 class="text-2xl font-bold mb-2">Fouad Al Tfaily</h1>
@@ -92,7 +134,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="main-content flex-1 p-8 ml-96">
+        <div class="main-content flex-1 p-8 md:ml-96">
             <section class="mb-12">
                 <h2 class="text-2xl font-bold mb-4">Hello! 👋</h2>
                 <div class="content-card p-6">
@@ -179,5 +221,26 @@
             </section>
         </div>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('hidden');
+            }
+        }
+
+        // Hide sidebar on mobile when clicking a link
+        if (window.innerWidth < 768) {
+            const links = document.querySelectorAll('#sidebar a');
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('sidebar').classList.add('hidden');
+                });
+            });
+        }
+    </script>
 </body>
 </html>
